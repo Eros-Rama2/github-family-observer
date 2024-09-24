@@ -33,7 +33,7 @@ def format_report_prs(merged_prs, unmerged_prs, open_prs, repo):
 
     if merged_prs:
         merged_field = {
-            "name": "\n\n🟣 **Merged Pull Requests** 🟣\n\n",
+            "name": "\n\n🟣 **Merged Pull Requests with review** 🟣\n\n",
             "value": "",
             "inline": False
         }
@@ -53,7 +53,7 @@ def format_report_prs(merged_prs, unmerged_prs, open_prs, repo):
 
     if unmerged_prs:
         unmerged_field = {
-            "name": "\n\n🔴 **Closed without merging** 🔴\n\n",
+            "name": "\n\n🔴 **Closed Pull Requests without merging** 🔴\n\n",
             "value": "",
             "inline": False
         }
