@@ -1,33 +1,27 @@
 from github import Github
 from dotenv import load_dotenv
 
-def get_commits_from_new_branch(new_branch_name):
-    load_dotenv()
-    g = Github("")
-    main_repo = g.get_repo(MAIN_REPO)
+def initialize_main_repo():
+    # Connect to the database (or create it if it doesn't exist)
+    conn = sqlite3.connect('db/state.db')
+    c = conn.cursor()
 
-    # Determine the default branch, typically "main" or "master"
-    default_branch = main_repo.default_branch
+    # Drop the table if it exists (useful for development/testing)
+    c.execute('DROP TABLE IF EXISTS state')
 
-    print(f"Comparing {new_branch_name} with {default_branch}")
+    # Create the table with the correct schema
+    c.execute('''CREATE TABLE state (data TEXT)''')
 
-    try:
-        # Perform the comparison
-        comparison = main_repo.compare(default_branch, new_branch_name)
-        new_commits = comparison.commits
+    # Fetch and insert the initial state
+    initial_state = fetch_initial_state_main_repo()
+    # initial_state = {"branches": ["feat/great", "feat-bro", "feat-older", "final", "folder", "master"], "prs": {"4": "open", "3": "closed", "2": "open", "1": "closed"}}
+    json_data = json.dumps(initial_state)
 
-        print(f"Successfully fetched) new commits from branch: {new_branch_name}")
+    # Insert the JSON data into the table
+    c.execute('INSERT INTO state (data) VALUES (?)', (json_data,))
 
-        # Create a list with commit messages and URLs
-        commit_list = [f"- {commit.commit.message} ({commit.html_url})" for commit in new_commits]
+    # Commit changes and close the connection
+    conn.commit()
+    conn.close()
 
-        # Print the formatted commit list
-        print("\nCommits:")
-        for commit in commit_list:
-            print(commit)
-
-    except Exception as e:
-        print(f"An error occurred while fetching commits: {e}")
-
-# Call the function with the new branch name
-get_commits_from_new_branch("feat-older")
+initialize_main_repo()

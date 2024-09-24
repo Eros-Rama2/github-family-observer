@@ -19,6 +19,7 @@ import os
 import ast
 load_dotenv()
 
+dbpass = 'db/repo_fam.db'
 
 def fetch_initial_state_main_repo():
     # Initialize the GitHub client
@@ -113,7 +114,7 @@ def update_database_with_branches():
     repo_data = fetch_github_branches_and_commits(os.getenv('GIT_ACCESS_TOKEN'), os.getenv('MAIN_REPO'), os.getenv('FORKS'))
     initialize_database_with_branches(repo_data)
 
-def initialize_database_with_branches(repo_data, db_name='db/repo_fam.db'):
+def initialize_database_with_branches(repo_data, db_name=db_path):
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
     cursor.execute('DROP TABLE IF EXISTS branch_state')

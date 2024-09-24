@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 def fetch_initial_state_main_repo():
     load_dotenv()
     # Initialize the GitHub client
-    access_token = git_access_token
+    access_token = GIT_ACCESS_TOKEN
     g = Github(access_token)
     main_repo = g.get_repo("Eros-Rama/bittensor")
 
