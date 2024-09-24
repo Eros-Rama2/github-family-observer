@@ -73,10 +73,6 @@ This script initializes the database with the initial state of the main reposito
 * Usage:
     * Run this script to generate a report on the current state of branches and pull requests.
 
-### `.env`
-
-This script provides configuration settings such as the GitHub access token.
-
 * Variables:
     * `git_access_token`: Your GitHub access token.
 * Usage:
